@@ -15,7 +15,7 @@ public class Trail {
         setLocation(location);
         setDifficulty(difficulty);
         setPricePerPerson(pricePerPerson);
-        setDistance(distanceKm);
+        setDistanceKm(distanceKm);
     }
 
     //getters
@@ -34,7 +34,6 @@ public class Trail {
     public double getPricePerPerson(){
         return pricePerPerson;
     }
-
     public double getDistanceKm() {
         return distanceKm;
     }
@@ -56,7 +55,7 @@ public class Trail {
 
     public void setDifficulty(Difficulty difficulty){
         if(difficulty == null){
-            throw new IllegalArgumentException("Diffulty is required");
+            throw new IllegalArgumentException("Difficulty is required");
         }
         this.difficulty = difficulty;
     }
@@ -68,9 +67,9 @@ public class Trail {
         this.pricePerPerson = pricePerPerson;
     }
 
-    public void setDistance(double distanceKm) {
+    public void setDistanceKm(double distanceKm) {
         if(distanceKm <= 0){
-            throw new IllegalArgumentException("Distance cannot be negative");
+            throw new IllegalArgumentException("Distance must be more than 0");
         }
         this.distanceKm = distanceKm;
     }
@@ -78,6 +77,6 @@ public class Trail {
 
     @Override
     public String toString(){
-        return "ID: " + id + " | Name: " + name + " | Difficulty: " + difficulty + " | Price: Rs " + pricePerPerson + " | Distance: " + distanceKm + " km";
+        return "ID: " + id + " | Name: " + name + " | Location: " + location + " | Difficulty: " + difficulty + " | Price: Rs " + pricePerPerson + " | Distance: " + distanceKm + " km";
     }
 }

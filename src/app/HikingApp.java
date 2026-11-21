@@ -27,7 +27,7 @@ public class HikingApp {
         // Test 3: a 0 km trail is refused (this was allowed before the fix)
         System.out.println("\n--- Test 3: distance of 0 km ---");
         try {
-            lePouce.setDistance(0);
+            lePouce.setDistanceKm(0);
         } catch (IllegalArgumentException e) {
             System.out.println("Refused: " + e.getMessage());
         }
