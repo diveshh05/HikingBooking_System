@@ -1,66 +1,55 @@
 package app;
 
-import model.Difficulty;
-import model.Guide;
-import model.Hiker;
-import model.Tour;
-import model.Trail;
+import java.util.ArrayList;
+import payment.CardPayment;
+import payment.CashPayment;
+import payment.OnlinePayment;
+import payment.Payment;
 
 public class HikingApp {
     public static void main(String[] args) {
-        System.out.println("Welcome to Mauritius Hiking Tours");
 
-        // Objects from Steps 3 and 4
-        Trail lePouce = new Trail("T001", "Le Pouce", "Moka", Difficulty.MODERATE, 1200, 4.5);
-        Guide ravi = new Guide("G001", "Ravi Ramdin", "57123456", 5, Difficulty.HARD, 1500);
-        Hiker anna = new Hiker("H001", "Anna Lee", "59876543", 25, Difficulty.MODERATE);
-        Hiker tom = new Hiker("H002", "Tom Bernard", "57001122", 30, Difficulty.EASY);
-        Hiker priya = new Hiker("H003", "Priya Doobur", "58334455", 22, Difficulty.HARD);
+        // Test 1: cash, enough money -> change given, success
+        System.out.println("--- Test 1: cash Rs 1500 for Rs 1200 ---");
+        Payment cash = new CashPayment(1200, 1500);
+        System.out.println("Success? " + cash.processPayment());
 
-        // Test 1: a new tour starts with every place free and SCHEDULED
-        System.out.println("\n--- Test 1: new tour ---");
-        Tour tour = new Tour("TR001", lePouce, ravi, "2026-12-05", 5);
-        System.out.println(tour);
+        // Test 2: cash, not enough money -> must FAIL
+        System.out.println("\n--- Test 2: cash Rs 1000 for Rs 1200 ---");
+        Payment shortCash = new CashPayment(1200, 1000);
+        System.out.println("Success? " + shortCash.processPayment());
 
-        // Test 2: reserve 3 places
-        System.out.println("\n--- Test 2: reserve 3 ---");
-        tour.reservePlaces(3);
-        System.out.println("Free places: " + tour.getFreePlaces());
+        // Test 3: card, valid and invalid last 4 digits
+        System.out.println("\n--- Test 3: card ---");
+        Payment card = new CardPayment(2400, "4417");
+        System.out.println("Card 4417 success? " + card.processPayment());
+        Payment badCard = new CardPayment(2400, "44a7");
+        System.out.println("Card 44a7 success? " + badCard.processPayment());
 
-        // Test 3: try to reserve more than what is left
-        System.out.println("\n--- Test 3: reserve 4 (only 2 left) ---");
+        // Test 4: online, with and without a reference
+        System.out.println("\n--- Test 4: online ---");
+        Payment online = new OnlinePayment(3600, "MCB-88213");
+        System.out.println("Ref MCB-88213 success? " + online.processPayment());
+        Payment noRef = new OnlinePayment(3600, "");
+        System.out.println("Empty ref success? " + noRef.processPayment());
+
+        // Test 5: POLYMORPHISM - one list, one loop, three different refund() versions
+        System.out.println("\n--- Test 5: polymorphism ---");
+        ArrayList<Payment> payments = new ArrayList<>();
+        payments.add(cash);
+        payments.add(card);
+        payments.add(online);
+        for (Payment p : payments) {
+            System.out.println(p);
+            p.refund();
+        }
+
+        // Test 6: amount of Rs 0 is refused
+        System.out.println("\n--- Test 6: amount Rs 0 ---");
         try {
-            tour.reservePlaces(4);
+            Payment zero = new CashPayment(0, 100);
         } catch (IllegalArgumentException e) {
             System.out.println("Refused: " + e.getMessage());
         }
-
-        // Test 4: try to release more than the maximum
-        System.out.println("\n--- Test 4: release 10 (max is 5) ---");
-        try {
-            tour.releasePlaces(10);
-        } catch (IllegalArgumentException e) {
-            System.out.println("Refused: " + e.getMessage());
-        }
-        System.out.println("Free places still: " + tour.getFreePlaces());
-
-        // Test 5: waiting list, first in first out
-        System.out.println("\n--- Test 5: waiting list ---");
-        tour.reservePlaces(2);
-        System.out.println("Tour full? " + tour.isFull());
-        tour.addToWaitingList(anna);
-        tour.addToWaitingList(tom);
-        tour.addToWaitingList(priya);
-        System.out.println("Waiting: " + tour.getWaitingListSize());
-
-        Hiker first = tour.nextInWaitingList();
-        System.out.println("1st to get a place: " + first.getName() + " | still waiting: " + tour.getWaitingListSize());
-        Hiker second = tour.nextInWaitingList();
-        System.out.println("2nd to get a place: " + second.getName() + " | still waiting: " + tour.getWaitingListSize());
-
-        // Test 6: cancel the tour (weather)
-        System.out.println("\n--- Test 6: cancel ---");
-        tour.cancel();
-        System.out.println(tour);
     }
 }
