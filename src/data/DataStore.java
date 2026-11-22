@@ -2,6 +2,12 @@ package data;
 
 import model.*;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,6 +18,11 @@ public class DataStore {
     private HashMap<String, Hiker> hikers = new HashMap<>();
     private HashMap<String, Tour> tours = new HashMap<>();
     private HashMap<String, Booking> bookings = new HashMap<>();
+
+
+
+    private static final String FOLDER = "data/";
+
 
     public String generateId(String prefix, HashMap<String, ?> map){
         int number = 1;
@@ -119,4 +130,143 @@ public class DataStore {
         }
         return result;
     }
+
+    //trails.txt
+
+    public void saveTrails(){
+        new File(FOLDER).mkdirs();
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(FOLDER + "trails.txt"))){
+            for(Trail t : trails.values()){
+                writer.write(t.getId() + ";" + t.getName() + ";" + t.getLocation() + ";" + t.getDifficulty() + ";"
+                        + t.getPricePerPerson() + ";" +t.getDistanceKm());
+                writer.newLine();
+            }
+        }
+        catch (IOException e){
+            System.out.println("Could not save trails: " + e.getMessage());
+        }
+    }
+
+    public void saveGuides(){
+        new File(FOLDER).mkdirs();
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(FOLDER + "guides.txt"))){
+            for(Guide g : guides.values()){
+                writer.write(g.getId() + ";" + g.getName() + ";" + g.getPhone() + ";" + g.getExperienceYears() + ";" + g.getMaxDifficulty() + ";" + g.getDailyRate());
+                writer.newLine();
+            }
+        }
+        catch (IOException e){
+            System.out.println("Could not save guides: " + e.getMessage());
+        }
+    }
+
+    public void saveHikers(){
+        new File(FOLDER).mkdirs();
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(FOLDER + "hikers.txt"))){
+            for(Hiker h : hikers.values()){
+                writer.write(h.getId() + ";" + h.getName() + ";" + h.getPhone() + ";" + h.getAge() + ";" + h.getFitnessLevel());
+                writer.newLine();
+            }
+        }
+        catch (IOException e){
+            System.out.println("Could not save hikers: " + e.getMessage());
+        }
+    }
+
+    //load
+
+    public void loadTrails(){
+        File file = new File(FOLDER + "trails.txt");
+        if(!file.exists()){
+            return;
+        }
+        try(BufferedReader reader = new BufferedReader(new FileReader(file))){
+
+            String line;
+            while((line = reader.readLine()) != null){
+                if(line.trim().isEmpty()){
+                    continue;
+                }
+                try{
+                    String[] p = line.split(";");
+                    Trail t = new Trail(p[0], p[1], p[2], Difficulty.valueOf(p[3]), Double.parseDouble(p[4]), Double.parseDouble(p[5]));
+                    trails.put(t.getId(), t);
+                }
+                catch (Exception e){
+                    System.out.println("Skipped bad line in trails.txt " + line);
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("Could not load trails: " + e.getMessage());
+        }
+    }
+
+    public void loadGuides(){
+        File file = new File(FOLDER + "guides.txt");
+        if(!file.exists()){
+            return;
+        }
+        try(BufferedReader reader = new BufferedReader(new FileReader(file))){
+
+            String line;
+            while((line = reader.readLine()) != null){
+                if(line.trim().isEmpty()){
+                    continue;
+                }
+                try{
+                    String[] p = line.split(";");
+                    Guide g = new Guide(p[0], p[1], p[2], Integer.parseInt(p[3]), Difficulty.valueOf(p[4]), Double.parseDouble(p[5]));
+                    guides.put(g.getId(), g);
+                }
+                catch (Exception e){
+                    System.out.println("Skipped bad line in guides.txt " + line);
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("Could not load guides: " + e.getMessage());
+        }
+
+    }
+
+
+    public void loadHikers(){
+        File file = new File(FOLDER + "hikers.txt");
+        if(!file.exists()){
+            return;
+        }
+        try(BufferedReader reader = new BufferedReader(new FileReader(file))){
+
+            String line;
+            while((line = reader.readLine()) != null){
+                if(line.trim().isEmpty()){
+                    continue;
+                }
+                try{
+                    String[] p = line.split(";");
+                    Hiker h = new Hiker(p[0], p[1], p[2], Integer.parseInt(p[3]), Difficulty.valueOf(p[4]));
+                    hikers.put(h.getId(), h);
+                }
+                catch (Exception e){
+                    System.out.println("Skipped bad line in hikers.txt " + line);
+                }
+            }
+
+        } catch (Exception e) {
+            System.out.println("Could not load hikers: " + e.getMessage());
+        }
+    }
+
+    public void saveAll(){
+        saveTrails();
+        saveGuides();
+        saveHikers();
+    }
+    public void loadAll(){
+        loadTrails();
+        loadGuides();
+        loadHikers();
+    }
+
 }
