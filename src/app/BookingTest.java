@@ -17,7 +17,7 @@ public class BookingTest {
         // Objects from Steps 3-6
         Trail lePouce = new Trail("T001", "Le Pouce", "Moka", Difficulty.MODERATE, 1200, 4.5);
         Trail tamarind = new Trail("T003", "Tamarind Falls", "Henrietta", Difficulty.EASY, 900, 3.0);
-        Guide ravi = new Guide("G001", "Ravi Ramdin", "57123456", 5, Difficulty.HARD, 1500);
+        Guide ravi = new Guide("G001", "Ravi", "57123456", 5, Difficulty.HARD, 1500);
         Tour tour1 = new Tour("TR001", lePouce, ravi, "2026-12-05", 8);
         Tour tour2 = new Tour("TR002", tamarind, ravi, "2026-12-12", 8);
         Hiker anna = new Hiker("H001", "Anna Lee", "59876543", 25, Difficulty.MODERATE);
