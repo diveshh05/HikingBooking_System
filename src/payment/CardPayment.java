@@ -4,7 +4,7 @@ public class CardPayment extends Payment{
 
     private String cardLastFour;
 
-    public CardPayment(double amount, String CardDigits){
+    public CardPayment(double amount, String cardLastFour){
         super(amount);
         this.cardLastFour = cardLastFour;
     }
