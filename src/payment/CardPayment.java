@@ -36,4 +36,8 @@ public class CardPayment extends Payment{
     public String getMethod(){
         return "Card";
     }
+    @Override
+    public String getDetail(){
+        return cardLastFour;
+    }
 }

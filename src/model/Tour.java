@@ -2,6 +2,7 @@ package model;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.ArrayList;
 
 public class Tour {
 
@@ -116,6 +117,9 @@ public class Tour {
     }
     public int getWaitingListSize(){
         return waitingList.size();
+    }
+    public ArrayList<Hiker> getWaitingHikers(){
+        return new ArrayList<>(waitingList);
     }
 
     public void cancel(){

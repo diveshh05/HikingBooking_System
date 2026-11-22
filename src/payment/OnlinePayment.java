@@ -30,4 +30,8 @@ public class OnlinePayment extends Payment{
     public String getMethod(){
         return "Online";
     }
+    @Override
+    public String getDetail(){
+        return transRef;
+    }
 }

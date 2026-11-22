@@ -33,6 +33,7 @@ public abstract class Payment {
     public abstract boolean processPayment();
     public abstract void refund();
     public abstract String getMethod();
+    public abstract String getDetail();
 
     @Override
     public String toString(){

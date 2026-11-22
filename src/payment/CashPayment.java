@@ -33,4 +33,8 @@ public class CashPayment extends Payment{
     public String getMethod(){
         return "Cash";
     }
+    @Override
+    public String getDetail(){
+        return String.valueOf(amountTendered);
+    }
 }
