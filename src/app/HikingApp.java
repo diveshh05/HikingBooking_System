@@ -185,7 +185,6 @@ public class HikingApp {
             }
         }
     }
-    //Guide
     private static void addGuide(){
         String name = InputHelper.readString("Guide name: ");
         String phone = InputHelper.readString("Phone (8 digits): ");
