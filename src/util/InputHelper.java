@@ -3,6 +3,8 @@ package util;
 import model.Difficulty;
 
 import java.util.Scanner;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 public class InputHelper {
 
@@ -57,6 +59,26 @@ public class InputHelper {
         System.out.println("1 = Easy, 2 = Moderate, 3 = Hard");
         int choice = readInt(prompt, 1, 3);
         return Difficulty.values()[choice -1];
+    }
+
+    public static String readDate(String prompt){
+        while(true){
+            System.out.println(prompt);
+            String line = scanner.nextLine().trim();
+
+            try{
+                LocalDate date = LocalDate.parse(line);
+                if(date.isBefore(LocalDate.now())){
+                    System.out.println("The date cannot be in the past.");
+                }
+                else{
+                    return date.toString();
+                }
+            }
+            catch(DateTimeParseException e){
+                System.out.println("Please use the format YYYY-MM-DD, e.g. 2026-11-23");
+            }
+        }
     }
 
 }
