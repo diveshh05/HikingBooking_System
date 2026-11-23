@@ -1,2 +1,0 @@
-T002;Tamarind Falls;Henrietta;EASY;900.0;3.0
-T001;Le Pouce;Moka;MODERATE;1200.0;4.5
