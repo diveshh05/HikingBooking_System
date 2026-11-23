@@ -1,9 +1,7 @@
 package app;
 
 import data.DataStore;
-import model.Difficulty;
-import model.Tour;
-import model.Trail;
+import model.*;
 import util.InputHelper;
 
 public class HikingApp {
@@ -34,7 +32,11 @@ public class HikingApp {
                     trailMenu();
                     break;
                 case 2:
+                    guideMenu();
+                    break;
                 case 3:
+                    hikerMenu();
+                    break;
                 case 4:
                 case 5:
                 case 6:
@@ -149,6 +151,223 @@ public class HikingApp {
             }
         }
         store.deleteTrail(id);
+        store.saveAll();
+        System.out.println("Deleted " + id);
+    }
+
+
+    private static void guideMenu(){
+
+        while(true){
+            System.out.println("\n----- Manage Guides -----");
+            System.out.println("1. Add");
+            System.out.println("2. View");
+            System.out.println("3. Update");
+            System.out.println("4. Delete");
+            System.out.println("0. Back");
+            int choice = InputHelper.readInt("Choose (0-4): ", 0,4);
+
+            switch(choice){
+                case 1:
+                    addGuide();
+                    break;
+                case 2:
+                    viewGuides();
+                    break;
+                case 3:
+                    updateGuide();
+                    break;
+                case 4:
+                    deleteGuide();
+                    break;
+                case 0:
+                    return;
+            }
+        }
+    }
+    //Guide
+    private static void addGuide(){
+        String name = InputHelper.readString("Guide name: ");
+        String phone = InputHelper.readString("Phone (8 digits): ");
+        int experience = InputHelper.readInt("Years of experience (0-50): ", 0, 50);
+        Difficulty maxDifficulty = InputHelper.readDifficulty("Hardest trail they can lead: ");
+        double rate = InputHelper.readPositiveDouble("Daily rate (Rs): ");
+
+        try{
+            Guide g = new Guide(store.nextGuideId(), name, phone, experience, maxDifficulty, rate);
+            store.addGuide(g);
+            store.saveAll();
+            System.out.println("Saved: " + g);
+        } catch (Exception e) {
+            System.out.println("Not saved: " + e.getMessage());
+        }
+    }
+    public static void viewGuides(){
+        if(store.getAllGuides().isEmpty()){
+            System.out.println("No guides yet.");
+            return;
+        }
+        for(Guide g : store.getAllGuides()){
+            System.out.println(g);
+        }
+    }
+    public static void updateGuide(){
+        String id = InputHelper.readString("Guide ID to update: ").toUpperCase();
+        Guide g = store.getGuide(id);
+        if(g == null){
+            System.out.println("Not found.");
+            return;
+        }
+        System.out.println("Current: " + g);
+        System.out.println("1. Name 2. Phone 3. Experience 4. Max Difficulty 5. 5. Daily rate");
+        int field = InputHelper.readInt("What to change (1-5): ", 1,5);
+
+        try{
+            if(field == 1){
+                g.setName(InputHelper.readString("New name: "));
+            }
+            else if(field == 2){
+                g.setPhone(InputHelper.readString("New phone (8 digits): "));
+            }
+            else if(field == 3){
+                g.setExperienceYears(InputHelper.readInt("New experience (0-50): ", 0, 50));
+            }
+            else if(field == 4){
+                g.setMaxDifficulty(InputHelper.readDifficulty("New max difficulty: "));
+            }
+            else{
+                g.setDailyRate(InputHelper.readPositiveDouble("New daily rate (Rs): "));
+            }
+            store.saveAll();
+            System.out.println("Saved: " + g);
+        }
+        catch (IllegalArgumentException e) {
+            System.out.println("Not changed: " + e.getMessage());
+        }
+    }
+    private static void deleteGuide(){
+        String id = InputHelper.readString("Guide ID to delete: ").toUpperCase();
+        if(store.getGuide(id) == null){
+            System.out.println("Not found.");
+            return;
+        }
+        for(Tour tour : store.getAllTours()){
+            if(tour.getGuide().getId().equals(id)){
+                System.out.println("Cannot delete: guide leads tour " + tour.getId());
+                return;
+            }
+        }
+        store.deleteGuide(id);
+        store.saveAll();
+        System.out.println("Deleted " + id);
+    }
+
+
+    public static void hikerMenu(){
+        while (true){
+            System.out.println("\n----- Manage Hikers -----");
+            System.out.println("1. Add");
+            System.out.println("2. View");
+            System.out.println("3. Update");
+            System.out.println("4. Delete");
+            System.out.println("0. Back");
+            int choice = InputHelper.readInt("Choose (0-4): ", 0,4);
+
+            switch(choice){
+                case 1:
+                    addHiker();
+                    break;
+                case 2:
+                    viewHikers();
+                    break;
+                case 3:
+                    updateHiker();
+                    break;
+                case 4:
+                    deleteHiker();
+                    break;
+                case 0:
+                    return;
+            }
+        }
+    }
+    private static void addHiker(){
+        String name = InputHelper.readString("Hiker name: ");
+        String phone = InputHelper.readString("Phone (8 digits): ");
+        int age = InputHelper.readInt("Age (12-75): ", 12, 75);
+        Difficulty fitness = InputHelper.readDifficulty("Fitness level: ");
+
+        try{
+            Hiker h = new Hiker(store.nextHikerId(), name, phone, age, fitness);
+            store.addHiker(h);
+            store.saveAll();
+            System.out.println("Saved: " + h);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Not saved: " + e.getMessage());
+        }
+    }
+    public static void viewHikers(){
+        if(store.getAllHikers().isEmpty()){
+            System.out.println("No hikers yet.");
+            return;
+        }
+        for(Hiker h : store.getAllHikers()){
+            System.out.println(h);
+        }
+    }
+    private static void updateHiker(){
+        String id = InputHelper.readString("Hiker ID to update: ").toUpperCase();
+        Hiker h = store.getHiker(id);
+        if(h == null){
+            System.out.println("Not found.");
+            return;
+        }
+        System.out.println("Current: " + h);
+        System.out.println("1. Name  2. Phone  3. Age  4. Fitness level");
+        int field = InputHelper.readInt("What to change (1-4): ", 1, 4);
+
+        try{
+            if(field == 1){
+                h.setName(InputHelper.readString("New name: "));
+            }
+            else if(field == 2){
+                h.setPhone(InputHelper.readString("New phone (8 digits): "));
+            }
+            else if(field == 3){
+                h.setAge(InputHelper.readInt("New age (12-75): ", 12, 75));
+            }
+            else{
+                h.setFitnessLevel(InputHelper.readDifficulty("New fitness level: "));
+            }
+            store.saveAll();
+            System.out.println("Saved: " + h);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Not changed: " + e.getMessage());
+        }
+    }
+    public static void deleteHiker(){
+        String id = InputHelper.readString("Hiker ID to delete: ").toUpperCase(); // errorr
+        if(store.getHiker(id) == null){
+            System.out.println("Not found.");
+            return;
+        }
+        for(Booking b : store.getAllBookings()){
+            for(Hiker h : b.getHikers()){
+                if(h.getId().equals(id)){
+                    System.out.println("Cannot delete: hiker is in booking " + b.getId());
+                    return;
+                }
+            }
+        }
+        for(Tour tour : store.getAllTours()){
+            for(Hiker h : tour.getWaitingHikers()){
+                if(h.getId().equals(id)){
+                    System.out.println("Cannot delete: hiker is on the waiting list of " + tour.getId());
+                    return;
+                }
+            }
+        }
+        store.deleteHiker(id);
         store.saveAll();
         System.out.println("Deleted " + id);
     }
