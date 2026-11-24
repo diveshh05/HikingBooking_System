@@ -133,7 +133,7 @@ public class BookingService {
         store.saveAll();
         System.out.println("Booking " + booking.getId() + " cancelled.");
     }
-    public static void promoteFromWaitingList(Tour tour){
+    private void promoteFromWaitingList(Tour tour){
         while(tour.hasWaiting() && tour.getFreePlaces() > 0){
             Hiker next = tour.nextInWaitingList();
             tour.reservePlaces(1);
