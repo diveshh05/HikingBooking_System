@@ -128,6 +128,7 @@ public class BookingService {
 
         booking.setStatus(BookingStatus.CANCELLED);
         Tour tour = booking.getTour();
+        tour.releasePlaces(booking.getGroupSize());
         System.out.println(booking.getGroupSize() + " place(s) freed on " + tour.getId());
         promoteFromWaitingList(tour);
         store.saveAll();
