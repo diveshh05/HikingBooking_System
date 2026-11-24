@@ -43,6 +43,10 @@ public class BookingService {
                 System.out.println(h.getName() + " is already in this group. Booking stopped.");
                 return;
             }
+            if(isAlreadyOnTour(h, tour)){
+                System.out.println(h.getName() + " is already booked or waiting on this tour. Booking stopped.");
+                return;
+            }
             if(!h.canHandle(tour.getTrail().getDifficulty())){
                 System.out.println(h.getName() + " is not fit enough for a " + tour.getTrail().getDifficulty() + " trail. Booking stopped.");
                 return;
@@ -76,6 +80,15 @@ public class BookingService {
         store.saveAll();
 
         printReceipt(booking);
+    }
+
+    private boolean isAlreadyOnTour(Hiker h, Tour tour){
+        for(Booking b : store.getBookingsForTour(tour.getId())){
+            if(b.isActive() && b.getHikers().contains(h)){
+                return true;
+            }
+        }
+        return tour.getWaitingHikers().contains(h);
     }
 
     private Payment choosePayment(double total){
