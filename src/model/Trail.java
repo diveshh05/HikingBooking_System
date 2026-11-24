@@ -42,12 +42,18 @@ public class Trail {
         if(name == null || name.trim().isEmpty()){
             throw new IllegalArgumentException("Name cannot be empty");
         }
+        if(name.contains(";")){
+            throw new IllegalArgumentException("Name cannot contain ;");
+        }
         this.name = name.trim();
     }
 
     public void setLocation(String location){
         if(location == null || location.trim().isEmpty()){
             throw new IllegalArgumentException("Location cannot be empty");
+        }
+        if(location.contains(";")){
+            throw new IllegalArgumentException("Location cannot contain ;");
         }
         this.location = location.trim();
     }
@@ -77,6 +83,6 @@ public class Trail {
 
     @Override
     public String toString(){
-        return "ID: " + id + " | Name: " + name + " | Location: " + location + " | Difficulty: " + difficulty + " | Price: Rs " + pricePerPerson + " | Distance: " + distanceKm + " km";
+        return "ID: " + id + " | Name: " + name + " | Location: " + location + " | Difficulty: " + difficulty + " | Price: Rs " + String.format("%.2f", pricePerPerson) + " | Distance: " + distanceKm + " km";
     }
 }

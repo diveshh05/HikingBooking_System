@@ -19,14 +19,14 @@ public class CashPayment extends Payment{
             System.out.println("Not enough cash");
             return false;
         }
-        System.out.println("Change: Rs " + (amountTendered - getAmount()));
+        System.out.println("Change: Rs " + String.format("%.2f", amountTendered - getAmount()));
         markPaidToday();
         return true;
     }
 
     @Override
     public void refund(){
-        System.out.println("Refund: Rs " + getAmount() + " handed back in cash");
+        System.out.println("Refund: Rs " + String.format("%.2f", getAmount()) + " handed back in cash");
     }
 
     @Override

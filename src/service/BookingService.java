@@ -117,7 +117,7 @@ public class BookingService {
         System.out.println("Date:    " + t.getDate());
         System.out.println("Guide:   " + t.getGuide().getName());
         System.out.println("Hikers:  " + b.getHikerNames());
-        System.out.println("Total:   Rs " + b.getTotalPrice());
+        System.out.println("Total:   Rs " + String.format("%.2f",b.getTotalPrice()));
         System.out.println("Paid by: " + b.getPayment().getMethod());
         System.out.println("=============================");
     }
@@ -158,7 +158,7 @@ public class BookingService {
             Booking promoted = new Booking(store.nextBookingId(), tour, solo, price, null, BookingStatus.PENDING_PAYMENT);
             store.addBooking(promoted);
 
-            System.out.println(next.getName() + " got a place from the waiting list ( booking " + promoted.getId() + ", Rs " + price + " to pay).");
+            System.out.println(next.getName() + " got a place from the waiting list ( booking " + promoted.getId() + ", Rs " + String.format("%.2f",price) + " to pay).");
         }
     }
 

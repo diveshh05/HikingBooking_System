@@ -52,10 +52,10 @@ public class ReportService {
         System.out.println("\n=== Earnings per guide (confirmed and moved bookings) ===");
         double grandTotal = 0;
         for(String name : totals.keySet()){        //every guide name in the HashMap
-            System.out.println(name + ": Rs " + totals.get(name));
+            System.out.println(name + ": Rs " +String.format("%.2f", totals.get(name)));
             grandTotal = grandTotal + totals.get(name);
         }
-        System.out.println("Total for the company: Rs " + grandTotal);
+        System.out.println("Total for the company: Rs " + String.format("%.2f", grandTotal));
     }
 
     private void mostPopularTrail(){

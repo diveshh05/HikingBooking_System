@@ -30,7 +30,7 @@ public class CardPayment extends Payment{
     }
     @Override
     public void refund(){
-        System.out.println("Refund: Rs " + getAmount() + " sent to card ending " + cardLastFour);
+        System.out.println("Refund: Rs " + String.format("%.2f", getAmount()) + " sent to card ending " + cardLastFour);
     }
     @Override
     public String getMethod(){

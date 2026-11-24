@@ -105,7 +105,7 @@ public class Booking {
 
         return "ID: " + id + " | Tour: " + tour.getId() + " (" + tour.getTrail().getName() + ", " + tour.getDate() + ")"
                 + " | Hikers: " + getHikerNames() + " | Group: " + getGroupSize()
-                + " | Total: Rs " + totalPrice + " | Payment: " + payer + " | Status: " + status;
+                + " | Total: Rs " + String.format("%.2f", totalPrice) + " | Payment: " + payer + " | Status: " + status;
     }
 
 }

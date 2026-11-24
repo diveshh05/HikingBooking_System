@@ -24,7 +24,7 @@ public class OnlinePayment extends Payment{
     }
     @Override
     public void refund(){
-        System.out.println("Refund: Rs " + getAmount() + " sent back using reference " + transRef);
+        System.out.println("Refund: Rs " + String.format("%.2f", getAmount()) + " sent back using reference " + transRef);
     }
     @Override
     public String getMethod(){

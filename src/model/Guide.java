@@ -76,6 +76,6 @@ public class Guide extends Person {
     @Override
     public String toString(){
         return super.toString() + " | Role: " + getRole() + " | Experience: " + experienceYears + " | Max Difficulty: " + maxDifficulty
-                + " | Daily Rate: Rs " + dailyRate;
+                + " | Daily Rate: Rs " + String.format("%.2f", dailyRate);
     }
 }

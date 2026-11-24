@@ -37,6 +37,6 @@ public abstract class Payment {
 
     @Override
     public String toString(){
-        return getMethod() + " Payment: Rs " + amount + " | Date: " + paymentDate;
+        return getMethod() + " Payment: Rs " + String.format("%.2f", amount) + " | Date: " + paymentDate;
     }
 }
