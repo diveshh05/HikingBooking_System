@@ -15,7 +15,7 @@ public class OnlinePayment extends Payment{
 
     @Override
     public boolean processPayment(){
-        if(transRef == null || transRef.trim().isEmpty()){
+        if(transRef == null || transRef.trim().isEmpty() || transRef.contains(";")){
             System.out.println("Invalid Reference");
             return false;
         }

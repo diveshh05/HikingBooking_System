@@ -30,6 +30,9 @@ public abstract class Person {
         if(name == null || name.trim().isEmpty()){
             throw new IllegalArgumentException("Name cannot be empty");
         }
+        if(name.contains(";")){
+            throw new IllegalArgumentException("Name cannot contain ;");
+        }
             this.name = name.trim();
     }
 

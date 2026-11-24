@@ -65,7 +65,7 @@ public class BookingService {
         //4
         double total = PriceCalculator.calculateGroupPrice(tour.getTrail(), size);
         int percent = (int)(PriceCalculator.getDiscountRate(size) * 100);
-        System.out.println("Price: Rs " + tour.getTrail().getPricePerPerson() + " x " + size + " hikers, " + percent + "% group discount = Rs " + total);
+        System.out.println("Price: Rs " + String.format("%.2f", tour.getTrail().getPricePerPerson()) + " x " + size + " hikers, " + percent + "% group discount = Rs " + total);
 
 
         Payment payment = choosePayment(total);
