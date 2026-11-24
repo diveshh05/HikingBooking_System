@@ -109,4 +109,43 @@ public class BookingService {
         System.out.println("=============================");
     }
 
+    public void cancelBooking(){
+        Booking booking = store.getBooking(InputHelper.readString("Booking ID to cancel: ").toUpperCase());
+        if(booking == null){
+            System.out.println("Booking not found.");
+            return;
+        }
+        if(booking.getStatus() == BookingStatus.CANCELLED || booking.getStatus() == BookingStatus.REFUNDED){
+            System.out.println("This booking is already cancelled.");
+            return;
+        }
+        if(booking.getPayment() != null){
+            booking.getPayment().refund();
+        }
+        else{
+            System.out.println("No payment to refund (this booking was not paid yet.)");
+        }
+
+        booking.setStatus(BookingStatus.CANCELLED);
+        Tour tour = booking.getTour();
+        System.out.println(booking.getGroupSize() + " place(s) freed on " + tour.getId());
+        promoteFromWaitingList(tour);
+        store.saveAll();
+        System.out.println("Booking " + booking.getId() + " cancelled.");
+    }
+    public static void promoteFromWaitingList(Tour tour){
+        while(tour.hasWaiting() && tour.getFreePlaces() > 0){
+            Hiker next = tour.nextInWaitingList();
+            tour.reservePlaces(1);
+
+            ArrayList<Hiker> solo = new ArrayList<>();
+            solo.add(next);
+            double price = PriceCalculator.calculateGroupPrice(tour.getTrail(),1);
+            Booking promoted = new Booking(store.nextBookingId(), tour, solo, price, null, BookingStatus.PENDING_PAYMENT);
+            store.addBooking(promoted);
+
+            System.out.println(next.getName() + " got a place from the waiting list ( booking " + promoted.getId() + ", Rs " + price + " to pay).");
+        }
+    }
+
 }

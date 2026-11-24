@@ -46,6 +46,8 @@ public class HikingApp {
                     bookingService.bookGroup();
                     break;
                 case 6:
+                    bookingService.cancelBooking();
+                    break;
                 case 7:
                 case 8:
                     System.out.println("Coming soon...");
