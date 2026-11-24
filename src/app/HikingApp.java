@@ -3,10 +3,12 @@ package app;
 import data.DataStore;
 import model.*;
 import util.InputHelper;
+import service.BookingService;
 
 public class HikingApp {
 
     private static DataStore store = new DataStore();
+    private static BookingService bookingService = new BookingService(store);
 
     public static void main(String[] args) {
 
@@ -41,6 +43,8 @@ public class HikingApp {
                     tourMenu();
                     break;
                 case 5:
+                    bookingService.bookGroup();
+                    break;
                 case 6:
                 case 7:
                 case 8:
