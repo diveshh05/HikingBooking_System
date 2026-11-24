@@ -5,13 +5,14 @@ import model.*;
 import service.WeatherCancellationService;
 import util.InputHelper;
 import service.BookingService;
-import service.BookingService;
+import service.ReportService;
 
 public class HikingApp {
 
     private static DataStore store = new DataStore();
     private static BookingService bookingService = new BookingService(store);
     private static WeatherCancellationService weatherService = new WeatherCancellationService(store);
+    private static ReportService reportService = new ReportService(store);
 
     public static void main(String[] args) {
 
@@ -55,7 +56,7 @@ public class HikingApp {
                     weatherService.cancelTour();
                     break;
                 case 8:
-                    System.out.println("Coming soon...");
+                    reportService.reportMenu();
                     break;
                 case 0:
                     store.saveAll();
