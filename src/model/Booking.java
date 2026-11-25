@@ -85,7 +85,10 @@ public class Booking {
     //weather cancel
     public void moveTo(Tour newTour){
         setTour(newTour);
-        status = BookingStatus.MOVED;
+        // a booking that was never paid stays PENDING_PAYMENT; only paid bookings become MOVED
+        if(status != BookingStatus.PENDING_PAYMENT){
+            status = BookingStatus.MOVED;
+        }
     }
 
     public String getHikerNames(){

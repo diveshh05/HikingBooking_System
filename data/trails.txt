@@ -1,0 +1,6 @@
+T006;2 Mammels;Ripailles;EASY;600.0;4.0
+T004;Trois Mammels;Pierrefonds;MODERATE;1000.0;6.0
+T005;500 Pieds;Alexadra falls;HARD;2000.0;10.0
+T002;Pieter Both;La Laura;HARD;2500.0;10.0
+T003;Lion Mount;Vieux Grand Port;HARD;1500.0;5.0
+T001;Le Pouce;Moka;MODERATE;1200.0;6.5
